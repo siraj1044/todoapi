@@ -24,9 +24,13 @@ updateId = () => {
 app.param('id', (req, res, next, todoId) => {
   let todo = _.find(todos, { id: todoId });
   let todoIndex = _.findIndex(todos, { id: todoId });
-  req.todo = todo;
-  req.todoIndex = todoIndex;
-  next();
+  if(todo){
+    req.todo = todo;
+    req.todoIndex = todoIndex;
+    next();
+  } else {
+    res.status(400).json({});
+  }
 })
 
 app.get('/todo', (req, res) => {
