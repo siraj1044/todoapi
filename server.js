@@ -9,11 +9,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 let todos = [];
 let id = 0;
-
 /** increment id and attach it to request object */
 updateId = () => {
   return (req, res, next) => {
-    
+    id++;
+    req.body.id = id + '';
+    next();
   }
 }
 
@@ -21,7 +22,11 @@ updateId = () => {
  * find matching todo and attach it to request object
  */
 app.param('id', (req, res, next) => {
-  
+  let todo = _.find(todos, { id: req.params.id });
+  let todoIndex = _.findIndex(todos, { id: req.params.id });
+  req.todo = todo;
+  req.todoIndex = todoIndex;
+  next();
 })
 
 app.get('/todo', (req, res) => {
