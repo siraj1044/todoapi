@@ -10,7 +10,7 @@ db.once('open', () => {
 });
 
 /** Todo model schema */
-let todoSchema = mongoose.Schema({
+let todoSchema = new mongoose.Schema({
   name: String,
   description: String
 });
@@ -85,7 +85,7 @@ let todoItems = [{
  * Iterate on todo items and insert it into collection
  */
 todoItems.forEach((todoItem) => {
-  //create(todoItem);
+  create(todoItem);
 });
 
 /**
