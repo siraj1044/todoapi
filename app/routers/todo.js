@@ -1,4 +1,5 @@
 const todoRouter = require('express').Router();
+const _ = require('lodash');
 
 let todos = [];
 let id = 0;
@@ -26,21 +27,21 @@ todoRouter.param('id', (req, res, next, todoId) => {
   }
 })
 
-todoRouter.get('/todo', (req, res) => {
+todoRouter.get('/', (req, res) => {
   res.json(todos);
 });
 
-todoRouter.get('/todo/:id', (req, res) => {
+todoRouter.get('/:id', (req, res) => {
   res.json(req.todo || {});
 });
 
-todoRouter.post('/todo', updateId(), (req, res) => {
+todoRouter.post('/', updateId(), (req, res) => {
   let todo = req.body;
   todos.push(todo);
   res.json(todo);
 });
 
-todoRouter.put('/todo/:id', (req, res) => {
+todoRouter.put('/:id', (req, res) => {
   let update = req.body;
   if(!todos[req.todoIndex]) {
     res.json({});
@@ -53,7 +54,7 @@ todoRouter.put('/todo/:id', (req, res) => {
   }
 });
 
-todoRouter.delete('/todo/:id', (req, res) => {
+todoRouter.delete('/:id', (req, res) => {
   if (!todos[req.todoIndex]) {
     res.json({});
   } else {

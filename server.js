@@ -1,8 +1,6 @@
 
 const express = require('express');
 const app = express();
-const bodyParser = require('body-parser');
-const _ = require('lodash')
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
