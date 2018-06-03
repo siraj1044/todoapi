@@ -21,9 +21,9 @@ updateId = () => {
 /** get id param
  * find matching todo and attach it to request object
  */
-app.param('id', (req, res, next) => {
-  let todo = _.find(todos, { id: req.params.id });
-  let todoIndex = _.findIndex(todos, { id: req.params.id });
+app.param('id', (req, res, next, todoId) => {
+  let todo = _.find(todos, { id: todoId });
+  let todoIndex = _.findIndex(todos, { id: todoId });
   req.todo = todo;
   req.todoIndex = todoIndex;
   next();
