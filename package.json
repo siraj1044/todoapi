@@ -1,0 +1,25 @@
+{
+  "name": "todoapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "debug": "node --nolazy --inspect-brk=9229 app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/siraj1044/todoapi.git"
+  },
+  "author": "siraj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/siraj1044/todoapi/issues"
+  },
+  "homepage": "https://github.com/siraj1044/todoapi#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3"
+  }
+}
