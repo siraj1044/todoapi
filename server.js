@@ -10,45 +10,54 @@ app.use(bodyParser.urlencoded({extended: false}));
 let todos = [];
 let id = 0;
 
+/** increment id and attach it to request object */
+updateId = () => {
+  return (req, res, next) => {
+    
+  }
+}
+
+/** get id param
+ * find matching todo and attach it to request object
+ */
+app.param('id', (req, res, next) => {
+  
+})
+
 app.get('/todo', (req, res) => {
   res.json(todos);
 });
 
 app.get('/todo/:id', (req, res) => {
-  let todo = _.find(todos, { id: req.params.id });
-  res.json(todo || {});
+  res.json(req.todo || {});
 });
 
-app.post('/todo', (req, res) => {
+app.post('/todo', updateId(), (req, res) => {
   let todo = req.body;
-  id++;
-  todo.id = id + '';
   todos.push(todo);
   res.json(todo);
 });
 
 app.put('/todo/:id', (req, res) => {
   let update = req.body;
-  let todoIndex = _.findIndex(todos, { id: req.params.id });
-  if(!todos[todoIndex]) {
+  if(!todos[req.todoIndex]) {
     res.json({});
   } else {
     /** assign will extend current todo item with posted update
      *  assign extend from right to left 
      * */
-    let updatedTodo = _.assign(todos[todoIndex], update);
+    let updatedTodo = _.assign(todos[req.todoIndex], update);
     res.json(updatedTodo);
   }
 });
 
 app.delete('/todo/:id', (req, res) => {
-  let todoIndex = _.findIndex(todos, { id: req.params.id });
-  if (!todos[todoIndex]) {
+  if (!todos[req.todoIndex]) {
     res.json({});
   } else {
-    let todo = todos[todoIndex];
-    todos.splice(todoIndex, 1);
-    res.json(todo);
+    let todo = todos[req.todoIndex];
+    todos.splice(req.todoIndex, 1);
+    res.json(req.todo);
   }
 });
 
