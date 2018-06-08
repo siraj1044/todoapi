@@ -19,9 +19,7 @@
   },
   "homepage": "https://github.com/siraj1044/todoapi#readme",
   "dependencies": {
-    "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "lodash": "^4.17.10",
     "mongoose": "^5.1.3"
   }
 }
