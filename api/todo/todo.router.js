@@ -35,7 +35,7 @@ todoRouter.post('/', [
  * @author Ahsan Ayaz, Siraj Ul Haq
  * @desc GET todo route - Get all todos related to specific user.
  */
-todoRouter.get('/', (req, res) => { // endpoint '/todo/', method : 'GET'
+todoRouter.get('/', (req, res, next) => { // endpoint '/todo/', method : 'GET'
   todoService.getTodos(req.userId, (err, todos) => {
     if (!err) {
       res.json({
@@ -52,7 +52,9 @@ todoRouter.get('/', (req, res) => { // endpoint '/todo/', method : 'GET'
  * @author Ahsan Ayaz, Siraj Ul Haq
  * @desc GET todo route by id.
  */
-todoRouter.get('/:id', (req, res) => { // endpoint '/todo/:id', method : 'GET'
+todoRouter.get('/:id', [
+    check('id').not().isEmpty()
+  ], (req, res, next) => { // endpoint '/todo/:id', method : 'GET'
   todoService.getTodoById(req.params.id, (err, todo) => {
     if (!err) {
       res.json({
@@ -69,7 +71,9 @@ todoRouter.get('/:id', (req, res) => { // endpoint '/todo/:id', method : 'GET'
  * @author Ahsan Ayaz, Siraj Ul Haq
  * @desc PUT todo route - Update todo item .
  */
-todoRouter.put('/:id', (req, res) => { // endpoint '/todo/:id', method : 'PUT'
+todoRouter.put('/:id', [
+    check('id').not().isEmpty()
+  ], (req, res, next) => { // endpoint '/todo/:id', method : 'PUT'
   todoService.updateTodo(req.params.id, req.body, 
     (err, updatedTodo) => {
       if (!err) {
@@ -83,8 +87,10 @@ todoRouter.put('/:id', (req, res) => { // endpoint '/todo/:id', method : 'PUT'
     });
 });
 
-todoRouter.delete('/:id', (req, res) => { // endpoint '/todo/:id', method : 'DELETE'
-  todoService.deleteTodo(req.params.id, (err, todo) => {
+todoRouter.delete('/:id', [
+    check('id').not().isEmpty()
+  ], (req, res, next) => { // endpoint '/todo/:id', method : 'DELETE'
+  todoService.deleteTodo(req.params.id, (err, todo, next) => {
     if (!err) {
       res.json({
         todo: todo,
