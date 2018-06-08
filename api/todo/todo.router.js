@@ -11,6 +11,7 @@ todoRouter.post('/', [
     check('todo.completed').optional().isBoolean()
   ], (req, res, next) => { // endpoint '/todo', method : 'POST'
   const newTodo = req.body.todo;
+  /** Check if there is any validations error */
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
