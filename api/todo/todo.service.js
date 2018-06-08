@@ -11,7 +11,7 @@ let TodoService = {
   },
 
   updateTodo: (id, data, callback) => {
-    Todo.findByIdAndUpdate(id, data, (err, updatedTodo) => {
+    Todo.findByIdAndUpdate(id, data, {new: true}, (err, updatedTodo) => {
       callback(err, updatedTodo);
     })
   },
