@@ -1,16 +1,24 @@
 const todoRouter = require('express').Router();
 const todoService = require('./todo.service');
+const { check, validationResult } = require('express-validator/check');
 
 /**
  * @author Ahsan Ayaz, Siraj Ul Haq
  * @desc POST todo route for inserting a todo to the database.
  */
-todoRouter.post('/', (req, res, next) => { // endpoint '/todo', method : 'POST'
+todoRouter.post('/', [
+    check('todo.name').not().isEmpty(),
+    check('todo.completed').optional().isBoolean()
+  ], (req, res, next) => { // endpoint '/todo', method : 'POST'
   const newTodo = req.body.todo;
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   /**
    * calling service method to create and return newly created todo
    */
-  todoService.createTodo(newTodo, (err, todo) => {
+  todoService.createTodo(newTodo, (err, todo) => {  
     if (!err) {
       res.json({
         todo: todo,
