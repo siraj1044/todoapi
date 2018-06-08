@@ -13,6 +13,13 @@ const api = require('./api/index');
 // Now we will pass app to the function to register the routers within the api/index.js file
 api(app);
 
+app.use((err, req, res, next) => {
+  res.status(500)
+  .json({
+    "error": err
+  });
+});
+
 let port = 3000;
 app.listen(port, () => {
   console.log('Listening on port ' + port);
