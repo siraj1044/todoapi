@@ -22,8 +22,8 @@ let TodoService = {
     })
   },
 
-  getTodos: (userId, callback) => {
-    Todo.find({createdBy: userId}, (err, todos) => {
+  getTodos: (callback) => {
+    Todo.find((err, todos) => {
       callback(err, todos);
     })
   },

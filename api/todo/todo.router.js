@@ -27,7 +27,7 @@ todoRouter.post('/', (req, res, next) => { // endpoint '/todo', method : 'POST'
  * @desc GET todo route - Get all todos related to specific user.
  */
 todoRouter.get('/', (req, res) => { // endpoint '/todo/', method : 'GET'
-  todoService.getTodos(req.userId, (err, todos) => {
+  todoService.getTodos((err, todos) => {
     if (!err) {
       res.json({
         todo: todos,
