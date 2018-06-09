@@ -53,7 +53,7 @@ todoRouter.get('/', (req, res, next) => { // endpoint '/todo/', method : 'GET'
  * @desc GET todo route by id.
  */
 todoRouter.get('/:id', [
-    check('id').not().isEmpty()
+    check('id').isString()
   ], (req, res, next) => { // endpoint '/todo/:id', method : 'GET'
   todoService.getTodoById(req.params.id, (err, todo) => {
     if (!err) {
@@ -72,7 +72,9 @@ todoRouter.get('/:id', [
  * @desc PUT todo route - Update todo item .
  */
 todoRouter.put('/:id', [
-    check('id').not().isEmpty()
+    check('id').isString(),
+    check('name', 'name should not be empty').optional().isString(),
+    check('todo.completed', 'Completed should be boolean').optional().isBoolean()
   ], (req, res, next) => { // endpoint '/todo/:id', method : 'PUT'
   todoService.updateTodo(req.params.id, req.body, 
     (err, updatedTodo) => {
@@ -88,7 +90,7 @@ todoRouter.put('/:id', [
 });
 
 todoRouter.delete('/:id', [
-    check('id').not().isEmpty()
+  check('id').isString()
   ], (req, res, next) => { // endpoint '/todo/:id', method : 'DELETE'
   todoService.deleteTodo(req.params.id, (err, todo, next) => {
     if (!err) {
