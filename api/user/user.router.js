@@ -58,4 +58,17 @@ userRouter.post('/login', [
   });
 });
 
+userRouter.get('/:id', Auth, (req, res, next) => {
+  userService.getUserById(req.params.id, (err, user) => {
+    if (user) {
+      res.json({
+        user: user,
+        message: "User found with the given id"
+      });
+    } else {
+      next(err);
+    }
+  });
+})
+
 module.exports = userRouter;
