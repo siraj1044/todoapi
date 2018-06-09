@@ -6,6 +6,7 @@
  */
 
 let todoRouter = require('./todo/todo.router');
+let userRouter = require('./user/user.router');
 
 /**
  * @author Ahsan Ayaz, Siraj Ul Haq
@@ -15,4 +16,5 @@ let todoRouter = require('./todo/todo.router');
  */
 module.exports = function (app) {
   app.use('/todo', todoRouter);
+  app.use('/user', userRouter);
 }
