@@ -75,6 +75,15 @@ todoRouter.put('/:id', [
   check('todo.name').optional().not().isEmpty().isString(),
   check('todo.completed').optional().isBoolean()
 ], (req, res) => { // endpoint '/todo/:id', method : 'PUT'
+
+  const errors = validationResult(req);
+
+  if(!errors.isEmpty()) {
+    return res.json({
+      error: errors.array()
+    });
+  }
+
   todoService.updateTodo(req.params.id, req.body, 
     (err, updatedTodo) => {
       if (!err) {
