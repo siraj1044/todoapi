@@ -13,6 +13,7 @@ const api = require('./api/index');
 // Now we will pass app to the function to register the routers within the api/index.js file
 api(app);
 
+/** Generic error handling middleware */
 app.use((err, req, res, next) => {
   res.status(500)
   .json({

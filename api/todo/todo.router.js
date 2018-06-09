@@ -6,8 +6,9 @@ const { check, validationResult } = require('express-validator/check');
  * @author Ahsan Ayaz, Siraj Ul Haq
  * @desc POST todo route for inserting a todo to the database.
  */
+
 todoRouter.post('/', [
-    check('todo.name').not().isEmpty(),
+    check('todo.name', 'todo name is required').not().isEmpty(),
     check('todo.completed').optional().isBoolean()
   ], (req, res, next) => { // endpoint '/todo', method : 'POST'
   const newTodo = req.body.todo;
@@ -69,7 +70,11 @@ todoRouter.get('/:id', (req, res) => { // endpoint '/todo/:id', method : 'GET'
  * @author Ahsan Ayaz, Siraj Ul Haq
  * @desc PUT todo route - Update todo item .
  */
-todoRouter.put('/:id', (req, res) => { // endpoint '/todo/:id', method : 'PUT'
+todoRouter.put('/:id', [
+  check('id').not().isEmpty(),
+  check('todo.name').optional().not().isEmpty().isString(),
+  check('todo.completed').optional().isBoolean()
+], (req, res) => { // endpoint '/todo/:id', method : 'PUT'
   todoService.updateTodo(req.params.id, req.body, 
     (err, updatedTodo) => {
       if (!err) {
