@@ -53,7 +53,9 @@ userRouter.post('/login', [
         message: 'Login successful'
       });
     } else {
-      next(err);
+      next({
+        message: err.message
+      });
     }
   });
 });
@@ -66,7 +68,9 @@ userRouter.get('/:id', Auth, (req, res, next) => {
         message: "User found with the given id"
       });
     } else {
-      next(err);
+      next({
+        message: erro.message
+      });
     }
   });
 })
