@@ -7,6 +7,7 @@
 
 let todoRouter = require('./todo/todo.router');
 let userRouter = require('./user/user.router');
+let Auth = require('./utility/auth');
 
 /**
  * @author Ahsan Ayaz, Siraj Ul Haq
@@ -15,6 +16,6 @@ let userRouter = require('./user/user.router');
  * @param app - the express app instance
  */
 module.exports = function (app) {
-  app.use('/todo', todoRouter);
+  app.use('/todo', Auth, todoRouter);
   app.use('/user', userRouter);
 }
