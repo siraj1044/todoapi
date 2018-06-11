@@ -69,7 +69,7 @@ userRouter.get('/:id', Auth, (req, res, next) => {
       });
     } else {
       next({
-        message: erro.message
+        message: err.message
       });
     }
   });
