@@ -1,10 +1,12 @@
 
 const express = require('express');
 const app = express();
+const cors = require('cors');
 
 // Requiring the db file will execute its contents and initiate the mongodb connection
 require('./db');
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
