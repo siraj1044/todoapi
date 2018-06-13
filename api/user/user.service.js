@@ -4,53 +4,67 @@ const uuidv1 = require('uuid/v1');
 
 let UserService = {
   
-  signup: (newUser, callback) => {
-    let user = new User(newUser);
-    user.save((err, savedUser) => {
-      callback(err, savedUser);
-    });
+  findUserByEmail: (email) => {
+    return User.findOne({email: email});
   },
 
-  login: (userInfo, callback) => {
-    User.findOne({email: userInfo.email}, (err, user) => {
-      if (user) {
-        let match = user.comparePassword(userInfo.password);
-        if (match) {
-          /** Generate Unique token */
-          let uuid = uuidv1();
-          User.findByIdAndUpdate(user._id, {token: uuid}, {new: true}, 
-            (err, updatedUser) => {
-              callback(err, updatedUser);
-            });
+  signup: (newUser) => {
+    let user = new User(newUser);
+    return user.save();
+  },
+
+  login: (userInfo) => {
+    /** This function will return Promise
+     * Resolve will be called if call is successfull
+     * or it will call reject if there is any issue
+     */
+    return new Promise((resolve, reject) => {
+      User.findOne({email: userInfo.email}).then((user) => {
+        if (user) {
+          let match = user.comparePassword(userInfo.password);
+          if (match) {
+            /** Generate Unique token */
+            let uuid = uuidv1();
+            user.token = uuid;
+            user.save()
+              .then((user) => {
+                //Successfull call
+                resolve(user);
+              })
+              .catch((err) => {
+                //There is an error
+                reject(err);
+              });
+          } else {
+            //Password mismatch
+            reject(new Error('Invalid Password'));
+          }
         } else {
-          callback(new Error('Invalid Password'));
+          //User with provided email not found
+          reject(new Error('Invalid Email address.'))
         }
-      } else {
-        callback(new Error('Invalid Email address.'))
-      }
+      }).catch((err) => {
+        //DB error
+        reject(err);
+      });
     });
   },
 
   updateUser: (id, data, callback) => {
-    User.findByIdAndUpdate(id, data, {new: true}, (err, updatedUser) => {
-      callback(err, updatedUser);
-    })
+    //Mongoose by default returns promise
+    return User.findByIdAndUpdate(id, data, {new: true});
   },
 
   getUserById: (id, callback) => {
-    User.findById(id, (err, user) => {
-      callback(err, user);
-    })
+    return User.findById(id);
   },
 
   getUsers: (userId, callback) => {
-    User.find({createdBy: userId}, (err, users) => {
-      callback(err, users);
-    })
+    return User.find({createdBy: userId});
   },
 
   deleteUser: (id, callback) => {
-    User.deleteOne({_id: id}, callback);
+    return User.deleteOne({_id: id});
   }
 };
 
