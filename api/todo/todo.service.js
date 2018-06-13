@@ -2,7 +2,7 @@
 const Todo = require('./todo.model');
 
 let TodoService = {
-  
+
   createTodo: (newTodo, callback) => {
     let todoItem = new Todo(newTodo);
     todoItem.save((err, savedTodo) => {
@@ -23,7 +23,7 @@ let TodoService = {
   },
 
   getTodos: (userId, callback) => {
-    Todo.find({createdBy: userId}, (err, todos) => {
+    Todo.find({ownerId: userId}, (err, todos) => {
       callback(err, todos);
     })
   },
