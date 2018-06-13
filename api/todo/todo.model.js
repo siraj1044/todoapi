@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 /** Todo model schema */
 const todoSchema = new mongoose.Schema({
     name: { type: String, required: true },
-    completed: Boolean
+    completed: Boolean,
+    ownerId: { type: mongoose.Schema.Types.ObjectId, required: true }
 });
 
 // Creating the Todo model using schema here

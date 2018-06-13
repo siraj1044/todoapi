@@ -16,10 +16,11 @@ todoRouter.post('/', [
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+  newTodo.ownerId = req.user._id;
   /**
    * calling service method to create and return newly created todo
    */
-  todoService.createTodo(newTodo, (err, todo) => {  
+  todoService.createTodo(newTodo, (err, todo) => {
     if (!err) {
       res.json({
         todo: todo,
@@ -36,7 +37,7 @@ todoRouter.post('/', [
  * @desc GET todo route - Get all todos related to specific user.
  */
 todoRouter.get('/', (req, res, next) => { // endpoint '/todo/', method : 'GET'
-  todoService.getTodos(req.userId, (err, todos) => {
+  todoService.getTodos(req.user._id, (err, todos) => {
     if (!err) {
       res.json({
         todo: todos,
@@ -74,7 +75,7 @@ todoRouter.get('/:id', [
 todoRouter.put('/:id', [
     check('id').not().isEmpty()
   ], (req, res, next) => { // endpoint '/todo/:id', method : 'PUT'
-  todoService.updateTodo(req.params.id, req.body, 
+  todoService.updateTodo(req.params.id, req.body,
     (err, updatedTodo) => {
       if (!err) {
         res.json({
