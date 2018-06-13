@@ -11,20 +11,24 @@ const Auth = (req, res, next) => {
 
     if (!token) {
         return res.status(401).json({
-          message: "Your Session has Expired, please LogIn."
+          message: "Token missing, you must pass token to access this resource."
         });
     } else {
-        /** get user by token */
-        UserModel.findOne({token: token}, (err, user) => {
-          if (user) {
-            req.user = user;
-            next();
-          } else {
-              res.status(403).json({
-                message: "Your Session has Expired, please LogIn."
-              });
-          }
+      /** get user by token */
+      UserModel.findOne({token: token}).then(user => {
+        if (user) {
+          req.user = user;
+          next();
+        } else {
+            res.status(403).json({
+              message: "Your Session has Expired, please LogIn."
+            });
+        }
+      }).catch(err => {
+        res.status(500).json({
+          message: "something went wrong"
         });
+      });
     }
 };
 
